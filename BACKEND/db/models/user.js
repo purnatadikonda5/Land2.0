@@ -1,9 +1,9 @@
 // user(Name,Email,MobileNumber,Password,Lands[(land id)])
 
 // land(state,city,village,area,amount,pics,owner,history)
-
+import jwt from 'jsonwebtoken';
 import mongoose from 'mongoose';
-
+import bcrypt from 'bcrypt';
 const userschema= new mongoose.Schema({
     Name:{
         type: String,
@@ -31,6 +31,16 @@ const userschema= new mongoose.Schema({
         required:true
     }
 });
-
+userschema.statics.hashpassword=async (password)=>{
+    return await bcrypt.hash(password,10);
+};
+userschema.methods.generateJWT= (email)=>{
+    return jwt.sign({email:email},process.env.jwtSECRET);
+};
+userschema.methods.isvalidPassword=async (password)=>{
+    return await bcrypt.compare(password,this.password);
+}
 const User= mongoose.model("User",userschema);
+
+
 export default User;
