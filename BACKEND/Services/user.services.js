@@ -25,3 +25,30 @@ export async function signupServices({Email,Password,PhoneNumber,Name}){
         }
     }
 }
+export async function loginServices({Email,Password}){
+    if(!Email||!Password){
+        return {
+            status:"error",
+            errorMessage:"Fields can't be empty"
+        };
+    }
+    try{
+        let user=User.findOne({Email});
+        if(!user){
+            return {
+                status:"error",
+                errorMessage:"Invalid User"
+            };
+        }
+        return {
+            status:"success",
+            user:user
+        }
+    }
+    catch(e){
+        return {
+            status:"error",
+            errorMessage:e
+        }
+    }
+}
