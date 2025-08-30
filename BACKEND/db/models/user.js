@@ -16,7 +16,7 @@ const userschema= new mongoose.Schema({
         maxength:[30,"Name should contain less than 31 characters"],
         required: true
     },
-    password:{
+    Password:{
         type:String,
         required:true
     },
@@ -24,22 +24,23 @@ const userschema= new mongoose.Schema({
     //     type:mongoose.Schema.Types.ObjectId,
     //     ref:Land
     // }],
-    MobileNumber:{
+    PhoneNumber:{
         type:String,
         minLength:[10,"Number should contain exactly 10 characters"],
         maxength:[10,"Number should contain exactly 10 characters"],
         required:true
     }
 });
-userschema.statics.hashpassword=async (password)=>{
-    return await bcrypt.hash(password,10);
+userschema.statics.hashpassword=async (Password)=>{
+    return await bcrypt.hash(Password,10);
 };
 userschema.methods.generateJWT= (email)=>{
     return jwt.sign({email:email},process.env.jwtSECRET);
 };
-userschema.methods.isvalidPassword=async (password)=>{
-    return await bcrypt.compare(password,this.password);
-}
+userschema.methods.isvalidPassword=async function(Password){
+    console.log(Password,this.Password);
+    return await bcrypt.compare(Password,this.Password);
+};
 const User= mongoose.model("User",userschema);
 
 
