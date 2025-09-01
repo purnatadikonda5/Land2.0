@@ -4,22 +4,21 @@ import nodemailer from 'nodemailer';
 let transporter = nodemailer.createTransport({
     service:"gmail",
     auth:{
-        user:"purnatadikonda5@gmail.com",
-        pass:"fusy rast rnjf ujlj"
+        user:process.env.userEmail,
+        pass:process.env.userPass
     }
 });
-let sendEmail = async ()=>{
+export const sendEmail = async ({Email,text})=>{
     try {
         let info =await transporter.sendMail({
-            from:'"nenu vedavani "<purnatadikonda5@gmail.com>',
-            to:"lcs2023049@iiitl.ac.in",
-            subject:"Hello",
-            text:"Hello ra kittu",
-            html:"<b>Hello ra kittu</b>"
+            from:`${process.env.EmailName} <${process.env.userEmail}>`,
+            to:Email,
+            subject:"Verification Code",
+            text:text,
+            html:`<b>${text}</b>`
         })
         console.log(info);
     } catch (error) {
         console.log(error);
     }
 }
-sendEmail();

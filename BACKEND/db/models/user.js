@@ -20,6 +20,13 @@ const userschema= new mongoose.Schema({
         type:String,
         required:true
     },
+    IsVerified:{
+        type:Boolean,
+        default:false
+    },
+    VerificationCode:{
+        type:String,
+    },
     // Lands:[{
     //     type:mongoose.Schema.Types.ObjectId,
     //     ref:Land
